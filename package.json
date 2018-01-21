@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/bjames9076/burger/issues"
   },
-  "homepage": "https://github.com/bjames9076/burger#readme"
+  "homepage": "https://github.com/bjames9076/burger#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
