@@ -19,6 +19,18 @@ var orm = {
     });
 
   },
+    // insertOne()
+    insertOne: function(burger_name, callback){    
+            // Run MySQL Query
+            connection.query('INSERT INTO burgers SET ?', {
+              burger_name: burger_name,
+              devoured: false,
+            }, function (err, result) {
+              if (err) console.log(err);
+              callback(result);
+            });
+        
+          },
 
 
 
