@@ -1,63 +1,52 @@
-var connection = require('../config/connection.js');
 
-function printQuestionMarks(num){
-  var arr = [];
+// Import Node Dependencies
+var connection = require('./connection.js');
 
-  for (var i=0; i<num; i++){
-    arr.push('?')
+
+
+
+// Connect to MySQL database
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
   };
+  console.log('connected as id ' + connection.threadId);
+});
 
-  return arr.toString();
-};
 
-function objToSql(ob){
-  
-  var arr = [];
 
-  for (var key in ob) {
-    arr.push(key + '=' + ob[key]);
-  };
 
-  return arr.toString();
-};
-
+// Methods for MySQL commands
 var orm = {
-	all: function(tableInput, cb){
-		var queryString = 'SELECT * FROM ' + tableInput;
 
-		connection.query(queryString, function(err, result){
-			if(err) console.log(err);
-			cb(result);
-		});
-	},
-	create: function(table, col, vals, cb){
-		var queryString = 'INSERT INTO ' + table;
-		queryString = queryString + ' (';
-		queryString = queryString + col.toString(); 
-		queryString = queryString + ') ';
-		queryString = queryString + 'VALUES (';
-		queryString = queryString + printQuestionMarks(vals.length);
-		queryString = queryString + ') ';
+  // selectAll()
+  selectAll: function(callback) {
 
-		connection.query(queryString, vals, function(err, result){
-			if(err) console.log(err);
-			cb(result);
-		});
-	},
-	update: function(table, objColVals, condition, cb){
-		var queryString = 'UPDATE ' + table;
-		queryString = queryString + ' SET ';
-		queryString = queryString + objToSql(objColVals);
-		queryString = queryString + ' WHERE ';
-		queryString = queryString + condition;
+    // Run MySQL Query
+    connection.query('SELECT * FROM burgers', function (err, result) {
+      if (err) console.log(err);
+      callback(result);
+    });
 
-		console.log(queryString);
+  },
 
-		connection.query(queryString, function(err, result){
-			if(err) console.log(err);
-			cb(result);
-		});
-	}
+
+
+  // updateOne()
+  updateOne: function(burgerID, callback){
+
+    // Run MySQL Query
+    connection.query('UPDATE burgers SET ? WHERE ?', [{devoured: true}, {id: burgerID}], function (err, result) {
+        if (err) console.log(err);
+        callback(result);
+      });
+
+  }
+
 };
 
-module.exports=orm;
+
+
+// Export the ORM object in module.exports.
+module.exports = orm;
