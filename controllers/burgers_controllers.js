@@ -28,6 +28,8 @@ router.put('/burgers/update/:id', function(req, res){
 
 	console.log('condition ', condition);
 
+	burgers.update({'devoured': req.body.devoured}, condition, function(data){
+		res.redirect('/burgers');
 	});
 });
 
