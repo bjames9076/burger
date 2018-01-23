@@ -11,13 +11,13 @@ router.get('/', function(req, res){
 router.get('/index', function (req, res) {
   burger.selectAll(function(data) {
     var hbsObject = { burgers: data };
-    //console.log(hbsObject);
+    
     res.render('index', hbsObject);
   });
 });
 
 
-// Create a New Burger
+// create new burger
 router.post('/burger/create', function (req, res) {
   burger.insertOne(req.body.burger_name, function() {
     res.redirect('/index');
@@ -25,14 +25,11 @@ router.post('/burger/create', function (req, res) {
 });
 
 
-// Devour a Burger
+// eat a burger
 router.post('/burger/eat/:id', function (req, res) {
   burger.updateOne(req.params.id, function() {
     res.redirect('/index');
   });
 });
-// ----------------------------------------------------
 
-
-// Export routes
 module.exports = router;

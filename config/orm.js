@@ -1,5 +1,5 @@
 
-// Import Node Dependencies
+
 var connection = require('./connection.js');
 
 connection.connect(function(err) {
@@ -19,7 +19,6 @@ var orm = {
   // selectAll()
   selectAll: function(callback) {
 
-    // Run MySQL Query
     connection.query('SELECT * FROM burgers', function (err, result) {
       if (err) console.log(err);
       callback(result);
@@ -28,7 +27,7 @@ var orm = {
   },
     // insertOne()
     insertOne: function(burger_name, callback){    
-            // Run MySQL Query
+            
             connection.query('INSERT INTO burgers SET ?', {
               burger_name: burger_name,
               devoured: false,
@@ -44,7 +43,7 @@ var orm = {
   // updateOne()
   updateOne: function(burgerID, callback){
 
-    // Run MySQL Query
+  
     connection.query('UPDATE burgers SET ? WHERE ?', [{devoured: true}, {id: burgerID}], function (err, result) {
         if (err) console.log(err);
         callback(result);
